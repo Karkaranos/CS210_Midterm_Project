@@ -143,11 +143,18 @@ public:
 int main()
 {
     SchoolList schoolList;
-    School* s = new School("Wayzata", "idfk", "Plymouth", "MN", "USA");
-    schoolList.insertFirst(*s);
-    s = new School("Western Branch", "something", "Peoria", "IL", "USA");
-    schoolList.insertLast(*s);
-    schoolList.display();
-    schoolList.deleteByName("Wayzata");
+
+    string fileName = "Schools.csv";
+    vector<vector<string>> data = CSVReader::readCSV(fileName);
+
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    for (int i=1; i<data.size(); i++)
+    {
+        School* s = new School(data[i][0], data[i][1], data[i][2],
+            data[i][3], data[i][4]);
+        schoolList.insertLast(*s);
+    }
+
     schoolList.display();
 }
