@@ -1,2 +1,0 @@
-NAME,ADDRESS,CITY,STATE,COUNTY
-Bradley University,1501 W Bradley Avenue,Peoria,IL,Peoria

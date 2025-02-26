@@ -89,6 +89,7 @@ public:
         {
             if (temp->name == schoolName)
             {
+                cout << schoolName << " found." << endl;
                 return temp;
             }
             temp = temp->next;
@@ -99,13 +100,13 @@ public:
     void display()
     {
         cout << endl;
-        cout << left << setw(20) << "School Name " << setw(50) << "| Address " << setw(20) << "| City " <<
+        cout << left << setw(30) << "School Name " << setw(30) << "| Address " << setw(20) << "| City " <<
             setw(10) << "| State " << setw(20) << "| County" << endl;
-        cout << setfill('-') << setw(119) << "-" << setfill(' ') << endl;
+        cout << setfill('-') << setw(100) << "-" << setfill(' ') << endl;
         School *temp = head;
         while (temp != nullptr)
         {
-            cout << left << setw(20) << temp ->name << "| " << setw(48) << temp->address << "| " << setw(18) <<
+            cout << left << setw(30) << temp ->name << "| " << setw(28) << temp->address << "| " << setw(18) <<
                 temp->city << "| " <<  setw(8) << temp->state << "| " <<  setw(18) << temp->county << endl;
             temp = temp->next;
 
