@@ -95,6 +95,7 @@ public:
             temp = temp->next;
         }
         cout << schoolName << " not found." << endl;
+        return nullptr;
     }
 
     void display()
