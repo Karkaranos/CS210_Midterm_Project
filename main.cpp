@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 struct School {
@@ -34,7 +35,85 @@ public:
         head->next = temp;
     }
 
-}
+    void insertLast(School school) {
+        if (head == nullptr) {
+            head = new School(school);
+            head->next = nullptr;
+        }
+        else
+        {
+            School *temp = head;
+            while (temp->next != nullptr)
+            {
+                temp = temp->next;
+            }
+            temp->next = new School(school);
+            temp->next->next = nullptr;
+        }
+    }
+
+    void deleteByName(string schoolName)
+    {
+        if (head == nullptr) {
+            cout << "School list is empty." << endl;
+            return;
+        }
+        if (head->name == schoolName) {
+            head = head->next;
+            cout << "Deleted " << schoolName << "." << endl;
+            return;
+        }
+        School *temp = head;
+        while (temp->next != nullptr)
+        {
+            if (temp->next->name == schoolName)
+            {
+                temp->next = temp->next->next;
+                cout << "Deleted " << schoolName << "." << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << schoolName << " not found." << endl;
+    }
+
+    School* findByName(string schoolName)
+    {
+        if (head == nullptr) {
+            cout << "School list is empty." << endl;
+            return nullptr;
+        }
+
+        School *temp = head;
+        while (temp->next != nullptr)
+        {
+            if (temp->name == schoolName)
+            {
+                return temp;
+            }
+            temp = temp->next;
+        }
+        cout << schoolName << " not found." << endl;
+    }
+
+    void display()
+    {
+        cout << endl;
+        cout << left << setw(20) << "School Name " << setw(50) << "| Address " << setw(20) << "| City " <<
+            setw(10) << "| State " << setw(20) << "| Country" << endl;
+        cout << setfill('-') << setw(119) << "-" << setfill(' ') << endl;
+        School *temp = head;
+        while (temp != nullptr)
+        {
+            cout << left << setw(20) << temp ->name << "| " << setw(48) << temp->address << "| " << setw(18) <<
+                temp->city << "| " <<  setw(8) << temp->state << "| " <<  setw(18) << temp->country << endl;
+            temp = temp->next;
+
+        }
+
+    }
+
+};
 
 class CSVReader {
 public:
@@ -60,3 +139,15 @@ public:
         return data;
     }
 };
+
+int main()
+{
+    SchoolList schoolList;
+    School* s = new School("Wayzata", "idfk", "Plymouth", "MN", "USA");
+    schoolList.insertFirst(*s);
+    s = new School("Western Branch", "something", "Peoria", "IL", "USA");
+    schoolList.insertLast(*s);
+    schoolList.display();
+    schoolList.deleteByName("Wayzata");
+    schoolList.display();
+}
