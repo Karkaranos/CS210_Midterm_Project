@@ -10,15 +10,15 @@ struct School {
     string address;
     string city;
     string state;
-    string country;
+    string county;
     School* next;
 
-    School(string schoolName, string schoolAddress, string schoolCity, string schoolState, string schoolCountry) {
+    School(string schoolName, string schoolAddress, string schoolCity, string schoolState, string schoolCounty) {
         name = schoolName;
         address = schoolAddress;
         city = schoolCity;
         state = schoolState;
-        country = schoolCountry;
+        county = schoolCounty;
         next = nullptr;
     }
 };
@@ -100,13 +100,13 @@ public:
     {
         cout << endl;
         cout << left << setw(20) << "School Name " << setw(50) << "| Address " << setw(20) << "| City " <<
-            setw(10) << "| State " << setw(20) << "| Country" << endl;
+            setw(10) << "| State " << setw(20) << "| County" << endl;
         cout << setfill('-') << setw(119) << "-" << setfill(' ') << endl;
         School *temp = head;
         while (temp != nullptr)
         {
             cout << left << setw(20) << temp ->name << "| " << setw(48) << temp->address << "| " << setw(18) <<
-                temp->city << "| " <<  setw(8) << temp->state << "| " <<  setw(18) << temp->country << endl;
+                temp->city << "| " <<  setw(8) << temp->state << "| " <<  setw(18) << temp->county << endl;
             temp = temp->next;
 
         }
