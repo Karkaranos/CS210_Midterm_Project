@@ -141,6 +141,18 @@ public:
     }
 };
 
+
+void displayMenu()
+{
+    cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
+    cout << "Enter the letter corresponding with the action you wish to take." << endl;
+    cout << "a) Display School information" << endl;
+    cout << "b) Search for School by Name" << endl;
+    cout << "c) Delete a School by Name" << endl;
+    cout << "d) Exit" << endl;
+    cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
+}
+
 int main()
 {
     SchoolList schoolList;
@@ -157,5 +169,35 @@ int main()
         schoolList.insertLast(*s);
     }
 
-    schoolList.display();
+    cout << "Schools loaded." << endl;
+
+    char input = 'z';
+
+    string name = "";
+    while (input != 'd')
+    {
+        displayMenu();
+        cin >> input;
+        cin.ignore(100, '\n');
+        switch (input) {
+            case 'a':
+                schoolList.display();
+                break;
+            case 'b':
+                cout << "Enter the name of the School to find: " << endl;
+                getline(cin, name);
+                schoolList.findByName(name);
+                break;
+            case 'c':
+                cout << "Enter the name of the School to delete: " << endl;
+                getline(cin, name);
+                schoolList.deleteByName(name);
+                break;
+            case 'd':
+                break;
+            default:
+                cout << "Invalid input." << endl;
+                break;
+        }
+    }
 }
