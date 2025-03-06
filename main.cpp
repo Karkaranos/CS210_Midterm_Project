@@ -5,6 +5,7 @@
 #include <iomanip>
 using namespace std;
 
+/*
 struct School {
     string name;
     string address;
@@ -115,7 +116,33 @@ public:
 
     }
 
+};*/
+
+struct School {
+    string name;
+    string address;
+    string city;
+    string state;
+    string county;
+    School* left;
+    School* right;
+
+    School(string schoolName, string schoolAddress, string schoolCity, string schoolState, string schoolCounty) {
+        name = schoolName;
+        address = schoolAddress;
+        city = schoolCity;
+        state = schoolState;
+        county = schoolCounty;
+        left = nullptr;
+        right = nullptr;
+    }
 };
+
+class SchoolBST
+{
+    School* root;
+};
+;
 
 class CSVReader {
 public:
