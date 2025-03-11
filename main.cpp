@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <iomanip>
+#include <compare>
 using namespace std;
 
 /*
@@ -140,7 +141,91 @@ struct School {
 
 class SchoolBST
 {
+private:
     School* root;
+    School* insertRecursive(School* node, School* school)
+    {
+        if (node == nullptr) {
+            node = school;
+            return school;
+        }
+        if  (school -> name < node->name)
+        {
+            node -> left = insertRecursive(node -> left, school);
+        }
+        else
+        {
+            node -> right = insertRecursive(node -> right, school);
+        }
+        return node;
+    }
+
+    void deleteTree(School* node) {
+        if (node == nullptr) return;
+        deleteTree(node->left);
+        deleteTree(node->right);
+        delete node;
+    }
+public:
+
+    SchoolBST()
+    {
+        root = nullptr;
+    }
+
+    ~SchoolBST() {
+        //deleteTree(root);
+    }
+    void insert(School* school)
+    {
+        root = insertRecursive(root, school);
+    }
+
+    //Modified files begin here!
+    void preOrderTraversal()
+    {
+        cout << "Pre-Order Traversal: ";
+        preOrderTraversalHelper(root);
+        cout << endl;
+    }
+
+    void preOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        cout << node-> name << ", ";
+        preOrderTraversalHelper(node->left);
+        preOrderTraversalHelper(node->right);
+    }
+
+    void inOrderTraversal()
+    {
+        cout << "In-Order Traversal: ";
+        inOrderTraversalHelper(root);
+        cout << endl;
+    }
+
+    void inOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        inOrderTraversalHelper(node->left);
+        cout << node->name << ", ";
+        inOrderTraversalHelper(node->right);
+    }
+
+    void postOrderTraversal() {
+        cout << "Post-Order Traversal: ";
+        postOrderTraversalHelper(root);
+        cout << endl;
+    }
+    void postOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        postOrderTraversalHelper(node->left);
+        postOrderTraversalHelper(node->right);
+        cout << node->name << ", ";
+    }
+
+
 };
 ;
 
@@ -183,7 +268,15 @@ void displayMenu()
 
 int main()
 {
-    SchoolList schoolList;
+    SchoolBST schoolBST;
+    School* s = new School("Bradley University","1501 W Bradley Avenue","Peoria","IL","Peoria");
+    schoolBST.insert(s);
+    s = new School("Wayzata", "idfk", "Plymouth", "MN", "Hennepin");
+    schoolBST.insert(s);
+    schoolBST.inOrderTraversal();
+    schoolBST.preOrderTraversal();
+    schoolBST.postOrderTraversal();
+    /*SchoolList schoolList;
 
     string fileName = "Schools.csv";
     vector<vector<string>> data = CSVReader::readCSV(fileName);
@@ -227,5 +320,5 @@ int main()
                 cout << "Invalid input." << endl;
                 break;
         }
-    }
+    }*/
 }
