@@ -170,56 +170,41 @@ private:
     School* deleteByNameHelper(School* node, string schoolName)
     {
         if (node == nullptr) {
-            return node;;
+            return node;
         }
-        if (node->name == schoolName)
-        {
-            //  Case 1: Node has no children
-            if (node->left == nullptr && node->right == nullptr) {
-                School* temp = node->right;
-                delete node;
-                cout << "Deletion case 1" << endl;
-                return temp;
-            }
-            //  Case 2: Node has two children
-            if (node->left != nullptr && node->right != nullptr)
-            {
-                School* temp = node->right;
-                while (temp!=nullptr && temp->left != nullptr)
-                {
-                    temp = temp->left;
-                }
-                if (temp != node->right) {
-                    temp->right = node->right;
-                }
-                else {
-                    temp->right = nullptr;
-                }
-                temp->left = node->left;
-                delete(node);
-                cout << "Deletion case 3" << endl;
-                return temp;
 
-            }
-            //  Case 3: Node has one child
-            else {
-                School* temp = node;
-                (node->left == nullptr) ? node = node->left : node= node->right;
-                delete temp;
-                cout << "Deletion case 2" << endl;
-                return temp;
-
-
-            }
-
-        }
-        if (node->name < schoolName)
+        if (node->name > schoolName)
         {
             node -> left = deleteByNameHelper(node->left, schoolName);
         }
-        node -> right = deleteByNameHelper(node->right, schoolName);
+        else if (node-> name < schoolName)
+        {
+            node -> right = deleteByNameHelper(node->right, schoolName);
+        }
+        else
+        {
+            //  Case 1: Node has no children
+            if (node->left == nullptr) {
+                School* temp = node->right;
+                delete node;
+                return temp;
+            }
+            if (node->right == nullptr) {
+                School* temp = node->left;
+                delete node;
+                return temp;
+            }
+            School* temp = node->right;
+            while (temp!=nullptr && temp->left != nullptr)
+            {
+                temp = temp->left;
+            }
+            temp->right = node->right;
+            temp->left = node->left;
+            delete(node);
+            return temp;
+        }
         return node;
-
     }
 
     School* findByNameHelper(School* node, string schoolName)
@@ -310,13 +295,15 @@ public:
     }
 
     void displayNode(School* node) {
+        if (node == nullptr) return;
         cout << left << setw(30) << node ->name << "| " << setw(28) << node->address << "| " << setw(18) <<
                 node->city << "| " <<  setw(8) << node->state << "| " <<  setw(18) << node->county << endl;
 
     }
 
     void findByName(string name) {
-
+        displayHeader();
+        displayNode(findByNameHelper(root, name));
     }
 
 };
