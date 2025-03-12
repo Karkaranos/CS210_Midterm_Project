@@ -221,6 +221,44 @@ private:
         return node;
 
     }
+
+    School* findByNameHelper(School* node, string schoolName)
+    {
+        if (node==nullptr) {
+            return node;
+        }
+        if (node->name == schoolName) {
+            return node;
+        }
+        if (node->name < schoolName) {
+            return findByNameHelper(node->left, schoolName);
+        }
+        return findByNameHelper(node->right, schoolName);
+    }
+
+    void preOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        displayNode(node);
+        preOrderTraversalHelper(node->left);
+        preOrderTraversalHelper(node->right);
+    }
+
+    void inOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        inOrderTraversalHelper(node->left);
+        displayNode(node);
+        inOrderTraversalHelper(node->right);
+    }
+
+    void postOrderTraversalHelper(School* node)
+    {
+        if (node == nullptr) return;
+        postOrderTraversalHelper(node->left);
+        postOrderTraversalHelper(node->right);
+        displayNode(node);
+    }
 public:
 
     SchoolBST()
@@ -239,49 +277,46 @@ public:
     //Modified files begin here!
     void preOrderTraversal()
     {
-        cout << "Pre-Order Traversal: ";
+        cout << endl << "Pre-Order Traversal" << endl;
+        displayHeader();
         preOrderTraversalHelper(root);
         cout << endl;
     }
 
-    void preOrderTraversalHelper(School* node)
-    {
-        if (node == nullptr) return;
-        cout << node-> name << ", ";
-        preOrderTraversalHelper(node->left);
-        preOrderTraversalHelper(node->right);
-    }
-
     void inOrderTraversal()
     {
-        cout << "In-Order Traversal: ";
+        cout << endl << "In-Order Traversal" << endl;
+        displayHeader();
         inOrderTraversalHelper(root);
         cout << endl;
     }
 
-    void inOrderTraversalHelper(School* node)
-    {
-        if (node == nullptr) return;
-        inOrderTraversalHelper(node->left);
-        cout << node->name << ", ";
-        inOrderTraversalHelper(node->right);
-    }
-
     void postOrderTraversal() {
-        cout << "Post-Order Traversal: ";
+        cout << endl << "Post-Order Traversal" << endl;
+        displayHeader();
         postOrderTraversalHelper(root);
         cout << endl;
-    }
-    void postOrderTraversalHelper(School* node)
-    {
-        if (node == nullptr) return;
-        postOrderTraversalHelper(node->left);
-        postOrderTraversalHelper(node->right);
-        cout << node->name << ", ";
     }
 
     void deleteByName(string name) {
         root = deleteByNameHelper(root, name);
+    }
+
+
+    void displayHeader() {
+        cout << left << setw(30) << "School Name " << setw(30) << "| Address " << setw(20) << "| City " <<
+            setw(10) << "| State " << setw(20) << "| County" << endl;
+        cout << setfill('-') << setw(100) << "-" << setfill(' ') << endl;
+    }
+
+    void displayNode(School* node) {
+        cout << left << setw(30) << node ->name << "| " << setw(28) << node->address << "| " << setw(18) <<
+                node->city << "| " <<  setw(8) << node->state << "| " <<  setw(18) << node->county << endl;
+
+    }
+
+    void findByName(string name) {
+
     }
 
 };
@@ -317,17 +352,19 @@ void displayMenu()
 {
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
     cout << "Enter the letter corresponding with the action you wish to take." << endl;
-    cout << "a) Display School information" << endl;
-    cout << "b) Search for School by Name" << endl;
-    cout << "c) Delete a School by Name" << endl;
-    cout << "d) Exit" << endl;
+    cout << "a) Display School information using a Pre-Order Traversal" << endl;
+    cout << "b) Display School information using an In-Order Traversal" << endl;
+    cout << "c) Display School information using a Post-Order Traversal" << endl;
+    cout << "d) Search and Display School by Name " << endl;
+    cout << "e) Delete a School by Name" << endl;
+    cout << "f) Exit" << endl;
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
 }
 
 int main()
 {
     SchoolBST schoolBST;
-    School* s = new School("University of Minnesota","1501 W Bradley Avenue","Peoria","IL","Peoria");
+    /*School* s = new School("University of Minnesota","1501 W Bradley Avenue","Peoria","IL","Peoria");
     schoolBST.insert(s);
     s = new School("Wayzata", "idfk", "Plymouth", "MN", "Hennepin");
     schoolBST.insert(s);
@@ -337,8 +374,8 @@ int main()
     schoolBST.preOrderTraversal();
     schoolBST.postOrderTraversal();
     schoolBST.deleteByName("University of Minnesota");
-    schoolBST.inOrderTraversal();
-    /*SchoolList schoolList;
+    schoolBST.inOrderTraversal();*/
+
 
     string fileName = "Schools.csv";
     vector<vector<string>> data = CSVReader::readCSV(fileName);
@@ -349,7 +386,7 @@ int main()
     {
         School* s = new School(data[i][0], data[i][1], data[i][2],
             data[i][3], data[i][4]);
-        schoolList.insertLast(*s);
+        schoolBST.insert(s);
     }
 
     cout << "Schools loaded." << endl;
@@ -357,30 +394,36 @@ int main()
     char input = 'z';
 
     string name = "";
-    while (input != 'd')
+    while (input != 'f')
     {
         displayMenu();
         cin >> input;
         cin.ignore(100, '\n');
         switch (input) {
             case 'a':
-                schoolList.display();
+                schoolBST.preOrderTraversal();
                 break;
             case 'b':
-                cout << "Enter the name of the School to find: " << endl;
-                getline(cin, name);
-                schoolList.findByName(name);
+                schoolBST.inOrderTraversal();
                 break;
             case 'c':
-                cout << "Enter the name of the School to delete: " << endl;
-                getline(cin, name);
-                schoolList.deleteByName(name);
+                schoolBST.postOrderTraversal();
                 break;
             case 'd':
+                cout << "Enter the name of the School to find: " << endl;
+                getline(cin, name);
+                schoolBST.findByName(name);
+                break;
+            case 'e':
+                cout << "Enter the name of the School to delete: " << endl;
+                getline(cin, name);
+                schoolBST.deleteByName(name);
+                break;
+            case 'f':
                 break;
             default:
                 cout << "Invalid input." << endl;
                 break;
         }
-    }*/
+    }
 }
