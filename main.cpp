@@ -166,6 +166,61 @@ private:
         deleteTree(node->right);
         delete node;
     }
+
+    School* deleteByNameHelper(School* node, string schoolName)
+    {
+        if (node == nullptr) {
+            return node;;
+        }
+        if (node->name == schoolName)
+        {
+            //  Case 1: Node has no children
+            if (node->left == nullptr && node->right == nullptr) {
+                School* temp = node->right;
+                delete node;
+                cout << "Deletion case 1" << endl;
+                return temp;
+            }
+            //  Case 2: Node has two children
+            if (node->left != nullptr && node->right != nullptr)
+            {
+                School* temp = node->right;
+                while (temp!=nullptr && temp->left != nullptr)
+                {
+                    temp = temp->left;
+                }
+                if (temp != node->right) {
+                    temp->right = node->right;
+                }
+                else {
+                    temp->right = nullptr;
+                }
+                temp->left = node->left;
+                delete(node);
+                cout << "Deletion case 3" << endl;
+                return temp;
+
+            }
+            //  Case 3: Node has one child
+            else {
+                School* temp = node;
+                (node->left == nullptr) ? node = node->left : node= node->right;
+                delete temp;
+                cout << "Deletion case 2" << endl;
+                return temp;
+
+
+            }
+
+        }
+        if (node->name < schoolName)
+        {
+            node -> left = deleteByNameHelper(node->left, schoolName);
+        }
+        node -> right = deleteByNameHelper(node->right, schoolName);
+        return node;
+
+    }
 public:
 
     SchoolBST()
@@ -225,6 +280,9 @@ public:
         cout << node->name << ", ";
     }
 
+    void deleteByName(string name) {
+        root = deleteByNameHelper(root, name);
+    }
 
 };
 ;
@@ -269,13 +327,17 @@ void displayMenu()
 int main()
 {
     SchoolBST schoolBST;
-    School* s = new School("Bradley University","1501 W Bradley Avenue","Peoria","IL","Peoria");
+    School* s = new School("University of Minnesota","1501 W Bradley Avenue","Peoria","IL","Peoria");
     schoolBST.insert(s);
     s = new School("Wayzata", "idfk", "Plymouth", "MN", "Hennepin");
+    schoolBST.insert(s);
+    s = new School("Bradley University", "idk", "Minneapolis", "MN", "Hennepin");
     schoolBST.insert(s);
     schoolBST.inOrderTraversal();
     schoolBST.preOrderTraversal();
     schoolBST.postOrderTraversal();
+    schoolBST.deleteByName("University of Minnesota");
+    schoolBST.inOrderTraversal();
     /*SchoolList schoolList;
 
     string fileName = "Schools.csv";
