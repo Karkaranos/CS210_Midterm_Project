@@ -9,6 +9,7 @@ using namespace std;
 
 /// Defines the School Struct
 /// School contains a name, address, city, state, and county as strings
+/// Contains a reference to the key for easier display
 /// Manages variable initialization
 struct School {
     int key;
@@ -28,18 +29,37 @@ struct School {
         county = schoolCounty;
     }
 
+    /// Mutator for int Key
+    /// Paramaters: Key value as an int
     void SetKey(int keyVal) {
         key = keyVal;
     }
 };
 
+/// Defines the Class SchoolHash, or School HashMap
+/// Private helper functions are called to consolidate calls
+/// Public functions can be called from other classes
+/// Function List:
+///     Constructor
+///     Destructor
+///     Insert
+///     Display
+///     Delete By Name
+///     Find By Name
 class SchoolHash
 {
+// Private functions help main functions occur
 private:
+    //  Creates the Hashmap
     unordered_map<int, School*> schools;
+
+    //  Controls information about the hashmap for the algorithm
     int base = 43;
     int tableSize = 100;
 
+    /// Helper function for many things
+    /// Creates a Hash Key for a school given the school name
+    /// Uses a prime number to reduce collisions
     int polynomialHash(string key) {
         long hash = 0;
         long power = 1;
@@ -60,8 +80,8 @@ private:
     }
 
     /// Helper function to display a school
-    /// It formats and displays information from a provided node
-    /// Paramaters: The node to be displayed as a School*
+    /// It formats and displays information from a provided key
+    /// Paramaters: The entry to be displayed as a School*
     void displayEntry(School* node)
     {
         // Return if the current node is empty
@@ -72,17 +92,33 @@ private:
                 node->city << "| " <<  setw(8) << node->state << "| " <<  setw(18) << node->county << endl;
 
     }
+
+//  Public functions allow other functions to access the map
 public:
+
+    /// Constructor for SchoolHash
+    /// Clears lingering data
     SchoolHash() {
         schools.clear();
     }
 
+    /// Destructor for SchoolHash
+    /// Deallocates Memory
+    ~SchoolHash() {
+        schools.clear();
+    }
+
+    /// Public function to insert a new school
+    /// Cals private hashkey function
+    /// Paramaters: School to add as a School*
     void insert(School* school) {
         int hashKey = polynomialHash(school->name);
         school->SetKey(hashKey);
         schools[school->key] = school;
     }
 
+    /// Public function to display the school Table
+    /// Calls private helper functions
     void display()
     {
         displayHeader();
@@ -91,32 +127,49 @@ public:
         }
     }
 
+    /// Public function to delete a school, given a name
+    /// Cals private hashkey function
+    /// Paramaters: School to delete as a string
     void deleteByName(string name)
     {
         int hashKey = polynomialHash(name);
         unordered_map<int, School*>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
             auto school = it->second;
-            cout << "Deleted " << school->name << endl;
-            schools.erase(it);
+
+            //  Some slight error handling
+            if (school->name == name)
+            {
+                cout << "Deleted " << school->name << endl;
+                schools.erase(it);
+                return;
+            }
+
         }
-        else {
-            cout << "School not found in database." << endl;
-        }
+        cout << "School not found in database." << endl;
 
     }
 
+    /// Public function to find and display a school, given a name
+    /// Calls private hashkey functiona
+    /// Paramaters: School to find as a string
     void findByName(string name)
     {
         int hashKey = polynomialHash(name);
         unordered_map<int, School*>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
-            displayHeader();
-            displayEntry(it->second);
+            auto school = it->second;
+
+            //  Some slight error handling
+            if (school->name == name)
+            {
+                displayHeader();
+                displayEntry(school);
+                return;
+            }
+
         }
-        else {
-            cout << "School not found in database." << endl;
-        }
+        cout << "School not found in database." << endl;
     }
 
 };
