@@ -77,13 +77,13 @@ public:
         schools.clear();
     }
 
-    void Insert(School* school) {
+    void insert(School* school) {
         int hashKey = polynomialHash(school->name);
         school->SetKey(hashKey);
         schools[school->key] = school;
     }
 
-    void DisplayHashTable()
+    void display()
     {
         displayHeader();
         for (auto entry : schools) {
@@ -91,12 +91,22 @@ public:
         }
     }
 
-    void DeleteSchoolByName(string name)
+    void deleteByName(string name)
     {
+        int hashKey = polynomialHash(name);
+        unordered_map<int, School*>::iterator it = schools.find(hashKey);
+        if (it != schools.end()) {
+            auto school = it->second;
+            cout << "Deleted " << school->name << endl;
+            schools.erase(it);
+        }
+        else {
+            cout << "School not found in database." << endl;
+        }
 
     }
 
-    void FindSchoolByName(string name)
+    void findByName(string name)
     {
         int hashKey = polynomialHash(name);
         unordered_map<int, School*>::iterator it = schools.find(hashKey);
@@ -172,7 +182,7 @@ int main()
     {
         School* s = new School(data[i][0], data[i][1], data[i][2],
             data[i][3], data[i][4]);
-        schoolHash.Insert(s);
+        schoolHash.insert(s);
     }
     //  Initializes variables for looping menu
     char input = 'z';
@@ -192,19 +202,19 @@ int main()
         //  Examine their input and take the correct course of action
         switch (input) {
             case 'a':   // Display School information and Hash Keys
-                schoolHash.DisplayHashTable();
+                schoolHash.display();
                 break;
             case 'b':   // Search and Display School by Name
                 //  Gets a school name from the user
                 cout << "Enter the name of the School to find: " << endl;
                 getline(cin, name);
-                schoolHash.FindSchoolByName(name);
+                schoolHash.findByName(name);
                 break;
             case 'c':   //  Delete a School by Name
                 //  Gets a school name from the user
                 cout << "Enter the name of the School to delete: " << endl;
                 getline(cin, name);
-                schoolHash.DeleteSchoolByName(name);
+                schoolHash.deleteByName(name);
                 break;
             case 'd':   // Exit
                 break;
