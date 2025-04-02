@@ -475,7 +475,7 @@ public:
     }
 
 };
-
+/*
 /// Provided class
 class CSVReader {
 public:
@@ -520,8 +520,10 @@ void displayMenu()
 /// Handles the main logic of the program
 /// Creates a list of schools from an external CSV file
 /// Reads in input from a user and calls corresponding functions
+
 int main()
 {
+
     //  Create the schoolBST
     SchoolBST schoolBST;
 
@@ -537,7 +539,6 @@ int main()
             data[i][3], data[i][4]);
         schoolBST.insert(s);
     }
-
     //  Initializes variables for looping menu
     char input = 'z';
     string name = "";
@@ -552,10 +553,11 @@ int main()
         cin >> input;
         cin.ignore(100, '\n');
 
+        /*
         //  Examine their input and take the correct course of action
         switch (input) {
             case 'a':   // Display School information using a Pre-Order Traversal
-                schoolBST.preOrderTraversal();
+                //schoolBST.preOrderTraversal();
                 break;
             case 'b':   // Display School information using an In-Order Traversal
                 schoolBST.inOrderTraversal();
@@ -582,4 +584,4 @@ int main()
                 break;
         }
     }
-}
+}*/
