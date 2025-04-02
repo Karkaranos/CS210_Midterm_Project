@@ -49,6 +49,29 @@ private:
         }
         return hash;
     }
+
+    /// Helper function to display table header
+    /// It creates and labels columns for each bit of data
+    void displayHeader()
+    {
+        cout << left << setw(10) << "Key" << setw(30) << "| School Name " << setw(30) << "| Address " << setw(20) << "| City " <<
+            setw(10) << "| State " << setw(20) << "| County" << endl;
+        cout << setfill('-') << setw(100) << "-" << setfill(' ') << endl;
+    }
+
+    /// Helper function to display a school
+    /// It formats and displays information from a provided node
+    /// Paramaters: The node to be displayed as a School*
+    void displayEntry(School* node)
+    {
+        // Return if the current node is empty
+        if (node == nullptr) {
+            return;
+        }
+        cout << left << setw(10) << node ->key << "| " << setw(28) << node ->name << "| " << setw(28) << node->address << "| " << setw(18) <<
+                node->city << "| " <<  setw(8) << node->state << "| " <<  setw(18) << node->county << endl;
+
+    }
 public:
     SchoolHash() {
         schools.clear();
@@ -61,7 +84,12 @@ public:
     }
 
     void DisplayHashTable()
-    {}
+    {
+        displayHeader();
+        for (auto entry : schools) {
+            displayEntry(entry.second);
+        }
+    }
 
     void DisplaySingleSchool(School* school) {
 
