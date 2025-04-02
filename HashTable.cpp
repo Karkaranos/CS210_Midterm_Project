@@ -91,16 +91,22 @@ public:
         }
     }
 
-    void DisplaySingleSchool(School* school) {
+    void DeleteSchoolByName(string name)
+    {
 
     }
 
-    void DeleteSchoolByName(string name) {
-
-    }
-
-    void FindSchoolByName(string name) {
-
+    void FindSchoolByName(string name)
+    {
+        int hashKey = polynomialHash(name);
+        unordered_map<int, School*>::iterator it = schools.find(hashKey);
+        if (it != schools.end()) {
+            displayHeader();
+            displayEntry(it->second);
+        }
+        else {
+            cout << "School not found in database." << endl;
+        }
     }
 
 };
