@@ -176,29 +176,29 @@ HashTable.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/HashTable.cpp.s
 .PHONY : HashTable.cpp.s
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+List.obj: List.cpp.obj
+.PHONY : List.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+List.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/List.cpp.obj
+.PHONY : List.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+List.i: List.cpp.i
+.PHONY : List.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/main.cpp.i
-.PHONY : main.cpp.i
+List.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/List.cpp.i
+.PHONY : List.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+List.s: List.cpp.s
+.PHONY : List.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/main.cpp.s
-.PHONY : main.cpp.s
+List.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/List.cpp.s
+.PHONY : List.cpp.s
 
 # Help Target
 help:
@@ -215,9 +215,9 @@ help:
 	@echo ... HashTable.obj
 	@echo ... HashTable.i
 	@echo ... HashTable.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... List.obj
+	@echo ... List.i
+	@echo ... List.s
 .PHONY : help
 
 

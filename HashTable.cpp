@@ -146,9 +146,9 @@ private:
     /// It creates and labels columns for each bit of data
     void displayHeader()
     {
-        cout << left << setw(10) << "Key" << setw(30) << "| School Name " << setw(30) << "| Address " << setw(20) << "| City " <<
+        cout << left << setw(7) << "Key" << setw(30) << "| School Name " << setw(30) << "| Address " << setw(20) << "| City " <<
             setw(10) << "| State " << setw(20) << "| County" << endl;
-        cout << setfill('-') << setw(100) << "-" << setfill(' ') << endl;
+        cout << setfill('-') << setw(107) << "-" << setfill(' ') << endl;
     }
 
     /// Helper function to display a school
@@ -160,7 +160,7 @@ private:
         if (node == nullptr) {
             return;
         }
-        cout << left << setw(10) << node ->key << "| " << setw(28) << node ->name << "| " << setw(28) << node->address << "| " << setw(18) <<
+        cout << left << setw(7) << node ->key << "| " << setw(28) << node ->name << "| " << setw(28) << node->address << "| " << setw(18) <<
                 node->city << "| " <<  setw(8) << node->state << "| " <<  setw(18) << node->county << endl;
 
     }
@@ -265,7 +265,7 @@ public:
 
 
 /// Provided class
-class CSVReader {
+class hashCSVReader {
 public:
     static vector<vector<string>> readCSV(const string& filename) {
         ifstream file(filename);
@@ -292,7 +292,7 @@ public:
 
 
 /// Non-Class-Specifiec function to display a formatted menu with options available to the user
-void displayMenu()
+void hashDisplayMenu()
 {
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
     cout << "Enter the letter corresponding with the action you wish to take." << endl;
@@ -315,7 +315,7 @@ int main()
 
     //  Pull information from the file
     string fileName = "Schools.csv";
-    vector<vector<string>> data = CSVReader::readCSV(fileName);
+    vector<vector<string>> data = hashCSVReader::readCSV(fileName);
 
     // Adding all items to the BST
     // Index starts at 1 to remove the CSV file headers
@@ -333,7 +333,7 @@ int main()
     //  Displays the options menu and calls functions to carry out their choice
     while (input != 'd')
     {
-        displayMenu();
+        hashDisplayMenu();
 
         //  Take input from the user
         cin >> input;
