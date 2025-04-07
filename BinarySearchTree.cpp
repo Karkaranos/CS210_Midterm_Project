@@ -406,14 +406,14 @@ void BSTDisplayMenu()
 /// Handles the main logic of the program
 /// Creates a list of schools from an external CSV file
 /// Reads in input from a user and calls corresponding functions
-
+/*
 int main()
 {
 
 
-}
+}*/
 
-void oldMain() {
+void BSTOldMain() {
     //  Create the schoolBST
     SchoolBST schoolBST;
 

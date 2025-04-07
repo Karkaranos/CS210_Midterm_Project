@@ -78,35 +78,38 @@ public:
         }
     }
 
-    void deleteByName(string schoolName)
+    School* deleteByName(string schoolName)
     {
         if (head == nullptr) {
-            cout << "School list is empty." << endl;
-            return;
+            //cout << "School list is empty." << endl;
+            return nullptr;
         }
         if (head->name == schoolName) {
+            School* toDelete = head;
             head = head->next;
-            cout << "Deleted " << schoolName << "." << endl;
-            return;
+            //cout << "Deleted " << schoolName << "." << endl;
+            return toDelete;
         }
         School *temp = head;
         while (temp->next != nullptr)
         {
             if (temp->next->name == schoolName)
             {
+                School* toDelete = temp->next;
                 temp->next = temp->next->next;
-                cout << "Deleted " << schoolName << "." << endl;
-                return;
+                //cout << "Deleted " << schoolName << "." << endl;
+                return toDelete;
             }
             temp = temp->next;
         }
-        cout << schoolName << " not found." << endl;
+        //cout << schoolName << " not found." << endl;
+        return nullptr;
     }
 
     void findByName(string schoolName)
     {
         if (head == nullptr) {
-            cout << "School list is empty." << endl;
+            //cout << "School list is empty." << endl;
             return;
         }
 
@@ -115,14 +118,14 @@ public:
         {
             if (temp->name == schoolName)
             {
-                cout << schoolName << " found." << endl;
-                displayHeader();
-                displayNode(temp);
+                //cout << schoolName << " found." << endl;
+                //displayHeader();
+                //displayNode(temp);
                 return;
             }
             temp = temp->next;
         }
-        cout << schoolName << " not found." << endl;
+        //cout << schoolName << " not found." << endl;
         return;
     }
 
@@ -189,8 +192,9 @@ int main()
     SchoolList schoolList;
     Timer t;
 
+    string filename = "Illinois_Schools.csv";
     //Import Illinois data first
-    vector<vector<string>> data = ListCSVReader::readCSV("Illinois_Schools.csv");
+    vector<vector<string>> data = ListCSVReader::readCSV(filename);
     string results = "SchoolListData.csv";
     ofstream outFile(results);
     if (!outFile.is_open())
@@ -200,9 +204,17 @@ int main()
     }
 
 
-    outFile << "Insertion" << endl;
+    outFile << "List" << endl;
+    outFile << "Index, Insert, Find, Delete" << endl;
     float f1 = 0;
     float f2 = 0;
+    float f3 = 0;
+    float f4 = 0;
+    float f5 = 0;
+    float f6 = 0;
+    int findMe;
+    int savedDataSize = data.size();
+    srand(time(NULL));
     // Adding all items to the list's tail
     // Index starts at 1 to remove the CSV file headers
     for (int i=1; i<data.size(); i++)
@@ -213,12 +225,84 @@ int main()
         schoolList.insertLast(*s);
         f2 = t.get_time();
 
-        outFile << i << "," << f2-f1 << endl;
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f3 = t.get_time();
+        schoolList.findByName(data[findMe][0]);
+        f4 = t.get_time();
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f5 = t.get_time();
+        School* saved = schoolList.deleteByName(data[findMe][0]);
+        f6 = t.get_time();
+
+        schoolList.insertLast(*saved);
+
+
+        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
     }
 
+    cout << "Finished Illinois Schools" << endl;
+    /*filename = "USA_Schools.csv";
+    data = ListCSVReader::readCSV(filename);
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    for (int i=1; i<data.size(); i++)
+    {
+        School* s = new School(data[i][0], data[i][1], data[i][2],
+            data[i][3], data[i][4]);
+        f1 = t.get_time();
+        schoolList.insertLast(*s);
+        f2 = t.get_time();
+
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f3 = t.get_time();
+        schoolList.findByName(data[findMe][0]);
+        f4 = t.get_time();
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f5 = t.get_time();
+        School* saved = schoolList.deleteByName(data[findMe][0]);
+        f6 = t.get_time();
+
+        schoolList.insertLast(*saved);
+
+
+
+        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
+    }
+    cout << "Finished USA Schools." << endl;*/
 }
 
-void oldMain() {
+void listOldMain() {
     SchoolList schoolList;
 
     string fileName = "Schools.csv";
@@ -231,7 +315,11 @@ void oldMain() {
         School* s = new School(data[i][0], data[i][1], data[i][2],
             data[i][3], data[i][4]);
         schoolList.insertLast(*s);
+
+
     }
+
+
 
     cout << "Schools loaded." << endl;
 
