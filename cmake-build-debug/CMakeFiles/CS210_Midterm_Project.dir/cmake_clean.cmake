@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/CS210_Midterm_Project.dir/BinarySearchTree.cpp.obj"
+  "CMakeFiles/CS210_Midterm_Project.dir/BinarySearchTree.cpp.obj.d"
   "CMakeFiles/CS210_Midterm_Project.dir/HashTable.cpp.obj"
   "CMakeFiles/CS210_Midterm_Project.dir/HashTable.cpp.obj.d"
   "CMakeFiles/CS210_Midterm_Project.dir/main.cpp.obj"

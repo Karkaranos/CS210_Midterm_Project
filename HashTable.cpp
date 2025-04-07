@@ -18,6 +18,7 @@ struct School {
     string city;
     string state;
     string county;
+    School* next;
 
     /// Constructor for struct School
     /// Initializes data variables
@@ -27,6 +28,7 @@ struct School {
         city = schoolCity;
         state = schoolState;
         county = schoolCounty;
+        next = nullptr;
     }
 
     /// Mutator for int Key
@@ -34,6 +36,76 @@ struct School {
     void SetKey(int keyVal) {
         key = keyVal;
     }
+};
+
+class SchoolHashList {
+public:
+    School* head;
+    School* tail;
+
+    SchoolHashList() {
+        head = tail = nullptr;
+    }
+
+    void insert(School* school) {
+
+        if (head == nullptr) {
+            head = school;
+        }
+        else {
+
+            tail->next = school;
+        }
+        tail = school;
+        school->next = nullptr;
+    }
+
+    vector<School*> split() {
+        vector<School*> schools;
+        School* node = head;
+        while (node!=nullptr) {
+            schools.push_back(node);
+            node = node->next;
+        }
+        return schools;
+    }
+
+    char deleteSchoolFromList(string name)
+    {
+        School* node = head;
+        if (head -> name == name) {
+            if (head == tail) {
+                return 'd';
+            }
+            else {
+                head = head -> next;
+            }
+            return 't';
+        }
+        while (node->next!=nullptr)
+        {
+            if (node->next ->name == name) {
+                node -> next = node -> next -> next;
+                return 't';
+            }
+
+        }
+        return 'f';
+    }
+
+    School* findSchoolInList(string name) {
+        School* node = head;
+        while (node!=nullptr)
+        {
+            if (node->name == name) {
+                return node;
+            }
+            node = node->next;
+
+        }
+        return nullptr;
+    }
+
 };
 
 /// Defines the Class SchoolHash, or School HashMap
@@ -51,7 +123,7 @@ class SchoolHash
 // Private functions help main functions occur
 private:
     //  Creates the Hashmap
-    unordered_map<int, School*> schools;
+    unordered_map<int, SchoolHashList> schools;
 
     //  Controls information about the hashmap for the algorithm
     int base = 43;
@@ -114,7 +186,15 @@ public:
     void insert(School* school) {
         int hashKey = polynomialHash(school->name);
         school->SetKey(hashKey);
-        schools[school->key] = school;
+        SchoolHashList second;
+        if (schools.find(hashKey) == schools.end()) {
+            second = SchoolHashList();
+        }
+        else {
+            second = schools.find(hashKey)->second;
+        }
+        second.insert(school);
+        schools[school->key] = second;
     }
 
     /// Public function to display the school Table
@@ -123,7 +203,10 @@ public:
     {
         displayHeader();
         for (auto entry : schools) {
-            displayEntry(entry.second);
+            vector<School*> splitSchools = entry.second.split();
+            for (School* school : splitSchools) {
+                displayEntry(school);
+            }
         }
     }
 
@@ -133,15 +216,17 @@ public:
     void deleteByName(string name)
     {
         int hashKey = polynomialHash(name);
-        unordered_map<int, School*>::iterator it = schools.find(hashKey);
+        unordered_map<int, SchoolHashList>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
-            auto school = it->second;
+            auto schoolList = it->second;
 
-            //  Some slight error handling
-            if (school->name == name)
-            {
-                cout << "Deleted " << school->name << endl;
-                schools.erase(it);
+            char result = schoolList.deleteSchoolFromList(name);
+            if (result =='t') {
+                cout << name << " deleted from database." << endl;
+                return;
+            }
+            else if (result == 'd') {
+                schools.erase(hashKey);
                 return;
             }
 
@@ -156,15 +241,18 @@ public:
     void findByName(string name)
     {
         int hashKey = polynomialHash(name);
-        unordered_map<int, School*>::iterator it = schools.find(hashKey);
+        unordered_map<int, SchoolHashList>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
-            auto school = it->second;
+            auto schoolList = it->second;
 
-            //  Some slight error handling
-            if (school->name == name)
-            {
+            School* result = schoolList.findSchoolInList(name);
+            if (result == nullptr) {
+                cout << "School not found in database." << endl;
+                return;
+            }
+            else {
                 displayHeader();
-                displayEntry(school);
+                displayEntry(result);
                 return;
             }
 

@@ -128,6 +128,30 @@ CS210_Midterm_Project/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/build
 .PHONY : CS210_Midterm_Project/fast
 
+BinarySearchTree.obj: BinarySearchTree.cpp.obj
+.PHONY : BinarySearchTree.obj
+
+# target to build an object file
+BinarySearchTree.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/BinarySearchTree.cpp.obj
+.PHONY : BinarySearchTree.cpp.obj
+
+BinarySearchTree.i: BinarySearchTree.cpp.i
+.PHONY : BinarySearchTree.i
+
+# target to preprocess a source file
+BinarySearchTree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/BinarySearchTree.cpp.i
+.PHONY : BinarySearchTree.cpp.i
+
+BinarySearchTree.s: BinarySearchTree.cpp.s
+.PHONY : BinarySearchTree.s
+
+# target to generate assembly for a file
+BinarySearchTree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/BinarySearchTree.cpp.s
+.PHONY : BinarySearchTree.cpp.s
+
 HashTable.obj: HashTable.cpp.obj
 .PHONY : HashTable.obj
 
@@ -185,6 +209,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... CS210_Midterm_Project
+	@echo ... BinarySearchTree.obj
+	@echo ... BinarySearchTree.i
+	@echo ... BinarySearchTree.s
 	@echo ... HashTable.obj
 	@echo ... HashTable.i
 	@echo ... HashTable.s
