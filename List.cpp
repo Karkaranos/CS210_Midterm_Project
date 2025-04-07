@@ -182,7 +182,7 @@ void listDisplayMenu()
     cout << "d) Exit" << endl;
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
 }
-/*
+
 int main()
 {
     SchoolList schoolList;
@@ -201,6 +201,7 @@ int main()
 
     cout << "Schools loaded." << endl;
 
+    /*
     char input = 'z';
 
     string name = "";
@@ -229,6 +230,5 @@ int main()
                 cout << "Invalid input." << endl;
                 break;
         }
-    }
+    }*/
 }
-*/

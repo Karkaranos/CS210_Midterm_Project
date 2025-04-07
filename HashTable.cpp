@@ -325,9 +325,13 @@ int main()
             data[i][3], data[i][4]);
         schoolHash.insert(s);
     }
+
+    /*
     //  Initializes variables for looping menu
     char input = 'z';
     string name = "";
+
+
 
     //  Run until the user wants to end the program
     //  Displays the options menu and calls functions to carry out their choice
@@ -363,5 +367,5 @@ int main()
                 cout << "Invalid input." << endl;
                 break;
         }
-    }
+    }*/
 }

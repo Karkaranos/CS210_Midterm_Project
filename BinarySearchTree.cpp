@@ -362,8 +362,8 @@ public:
 
 };
 
-/*
-class CSVReader {
+
+class BSTCSVReader {
 public:
     static vector<vector<string>> readCSV(const string& filename) {
         ifstream file(filename);
@@ -390,7 +390,7 @@ public:
 
 
 /// Non-Class-Specifiec function to display a formatted menu with options available to the user
-void displayMenu()
+void BSTDisplayMenu()
 {
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
     cout << "Enter the letter corresponding with the action you wish to take." << endl;
@@ -415,7 +415,7 @@ int main()
 
     //  Pull information from the file
     string fileName = "Schools.csv";
-    vector<vector<string>> data = CSVReader::readCSV(fileName);
+    vector<vector<string>> data = BSTCSVReader::readCSV(fileName);
 
     // Adding all items to the BST
     // Index starts at 1 to remove the CSV file headers
@@ -425,6 +425,8 @@ int main()
             data[i][3], data[i][4]);
         schoolBST.insert(s);
     }
+
+    /*
     //  Initializes variables for looping menu
     char input = 'z';
     string name = "";
@@ -433,13 +435,13 @@ int main()
     //  Displays the options menu and calls functions to carry out their choice
     while (input != 'f')
     {
-        displayMenu();
+        BSTDisplayMenu();
 
         //  Take input from the user
         cin >> input;
         cin.ignore(100, '\n');
 
-        /*
+
         //  Examine their input and take the correct course of action
         switch (input) {
             case 'a':   // Display School information using a Pre-Order Traversal
@@ -469,5 +471,5 @@ int main()
                 cout << "Invalid input." << endl;
                 break;
         }
-    }
-}*/
+    }*/
+}
