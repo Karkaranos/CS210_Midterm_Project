@@ -310,6 +310,10 @@ void hashDisplayMenu()
 int main()
 {
 
+}
+
+void oldMain() {
+
     //  Create the schoolBST
     SchoolHash schoolHash;
 
@@ -326,7 +330,7 @@ int main()
         schoolHash.insert(s);
     }
 
-    /*
+
     //  Initializes variables for looping menu
     char input = 'z';
     string name = "";
@@ -367,5 +371,5 @@ int main()
                 cout << "Invalid input." << endl;
                 break;
         }
-    }*/
+    }
 }

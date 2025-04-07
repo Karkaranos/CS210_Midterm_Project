@@ -200,6 +200,30 @@ List.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/List.cpp.s
 .PHONY : List.cpp.s
 
+SchoolTester.obj: SchoolTester.cpp.obj
+.PHONY : SchoolTester.obj
+
+# target to build an object file
+SchoolTester.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/SchoolTester.cpp.obj
+.PHONY : SchoolTester.cpp.obj
+
+SchoolTester.i: SchoolTester.cpp.i
+.PHONY : SchoolTester.i
+
+# target to preprocess a source file
+SchoolTester.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/SchoolTester.cpp.i
+.PHONY : SchoolTester.cpp.i
+
+SchoolTester.s: SchoolTester.cpp.s
+.PHONY : SchoolTester.s
+
+# target to generate assembly for a file
+SchoolTester.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS210_Midterm_Project.dir\build.make CMakeFiles/CS210_Midterm_Project.dir/SchoolTester.cpp.s
+.PHONY : SchoolTester.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -218,6 +242,9 @@ help:
 	@echo ... List.obj
 	@echo ... List.i
 	@echo ... List.s
+	@echo ... SchoolTester.obj
+	@echo ... SchoolTester.i
+	@echo ... SchoolTester.s
 .PHONY : help
 
 

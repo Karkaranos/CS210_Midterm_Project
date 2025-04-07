@@ -410,6 +410,10 @@ void BSTDisplayMenu()
 int main()
 {
 
+
+}
+
+void oldMain() {
     //  Create the schoolBST
     SchoolBST schoolBST;
 
@@ -426,7 +430,7 @@ int main()
         schoolBST.insert(s);
     }
 
-    /*
+
     //  Initializes variables for looping menu
     char input = 'z';
     string name = "";
@@ -446,30 +450,30 @@ int main()
         switch (input) {
             case 'a':   // Display School information using a Pre-Order Traversal
                 //schoolBST.preOrderTraversal();
-                break;
+                    break;
             case 'b':   // Display School information using an In-Order Traversal
                 schoolBST.inOrderTraversal();
-                break;
+            break;
             case 'c':   // Display School information using a Post-Order Traversal
                 schoolBST.postOrderTraversal();
-                break;
+            break;
             case 'd':   // Search and Display School by Name
                 //  Gets a school name from the user
-                cout << "Enter the name of the School to find: " << endl;
-                getline(cin, name);
-                schoolBST.findByName(name);
-                break;
+                    cout << "Enter the name of the School to find: " << endl;
+            getline(cin, name);
+            schoolBST.findByName(name);
+            break;
             case 'e':   //  Delete a School by Name
                 //  Gets a school name from the user
-                cout << "Enter the name of the School to delete: " << endl;
-                getline(cin, name);
-                schoolBST.deleteByName(name);
-                break;
+                    cout << "Enter the name of the School to delete: " << endl;
+            getline(cin, name);
+            schoolBST.deleteByName(name);
+            break;
             case 'f':   // Exit
                 break;
             default:    // Other input
                 cout << "Invalid input." << endl;
-                break;
+            break;
         }
-    }*/
+    }
 }

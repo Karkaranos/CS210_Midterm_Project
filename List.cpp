@@ -4,6 +4,7 @@
 #include <vector>
 #include <iomanip>
 #include <compare>
+#include "timer.h"
 using namespace std;
 
 
@@ -186,6 +187,39 @@ void listDisplayMenu()
 int main()
 {
     SchoolList schoolList;
+    Timer t;
+
+    //Import Illinois data first
+    vector<vector<string>> data = ListCSVReader::readCSV("Illinois_Schools.csv");
+    string results = "SchoolListData.csv";
+    ofstream outFile(results);
+    if (!outFile.is_open())
+    {
+        cerr << "Failed to open " << results << "for writing.\n";
+        return 1;
+    }
+
+
+    outFile << "Insertion" << endl;
+    float f1 = 0;
+    float f2 = 0;
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    for (int i=1; i<data.size(); i++)
+    {
+        School* s = new School(data[i][0], data[i][1], data[i][2],
+            data[i][3], data[i][4]);
+        f1 = t.get_time();
+        schoolList.insertLast(*s);
+        f2 = t.get_time();
+
+        outFile << i << "," << f2-f1 << endl;
+    }
+
+}
+
+void oldMain() {
+    SchoolList schoolList;
 
     string fileName = "Schools.csv";
     vector<vector<string>> data = ListCSVReader::readCSV(fileName);
@@ -201,7 +235,7 @@ int main()
 
     cout << "Schools loaded." << endl;
 
-    /*
+
     char input = 'z';
 
     string name = "";
@@ -213,22 +247,22 @@ int main()
         switch (input) {
             case 'a':
                 schoolList.display();
-                break;
+            break;
             case 'b':
                 cout << "Enter the name of the School to find: " << endl;
-                getline(cin, name);
-                schoolList.findByName(name);
-                break;
+            getline(cin, name);
+            schoolList.findByName(name);
+            break;
             case 'c':
                 cout << "Enter the name of the School to delete: " << endl;
-                getline(cin, name);
-                schoolList.deleteByName(name);
-                break;
+            getline(cin, name);
+            schoolList.deleteByName(name);
+            break;
             case 'd':
                 break;
             default:
                 cout << "Invalid input." << endl;
-                break;
+            break;
         }
-    }*/
+    }
 }

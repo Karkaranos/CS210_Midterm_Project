@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/CS210_Midterm_Project.dir/HashTable.cpp.obj.d"
   "CMakeFiles/CS210_Midterm_Project.dir/List.cpp.obj"
   "CMakeFiles/CS210_Midterm_Project.dir/List.cpp.obj.d"
+  "CMakeFiles/CS210_Midterm_Project.dir/SchoolTester.cpp.obj"
+  "CMakeFiles/CS210_Midterm_Project.dir/SchoolTester.cpp.obj.d"
   "CS210_Midterm_Project.exe"
   "CS210_Midterm_Project.exe.manifest"
   "CS210_Midterm_Project.pdb"
