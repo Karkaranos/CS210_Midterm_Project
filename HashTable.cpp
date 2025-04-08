@@ -12,6 +12,8 @@ using namespace std;
 /// School contains a name, address, city, state, and county as strings
 /// Contains a reference to the key for easier display
 /// Manages variable initialization
+///
+
 struct School {
     int key;
     string name;
@@ -228,7 +230,7 @@ public:
 
             char result = schoolList.deleteSchoolFromList(name);
             if (result =='t') {
-                cout << name << " deleted from database." << endl;
+                //cout << name << " deleted from database." << endl;
                 return schoolList.justDeleted;
             }
             else if (result == 'd') {
@@ -237,7 +239,7 @@ public:
             }
 
         }
-        cout << "School not found in database." << endl;
+        //cout << "School not found in database." << endl;
         return nullptr;
 
     }
@@ -254,17 +256,17 @@ public:
 
             School* result = schoolList.findSchoolInList(name);
             if (result == nullptr) {
-                cout << "School not found in database." << endl;
+                //cout << "School not found in database." << endl;
                 return;
             }
             else {
-                displayHeader();
-                displayEntry(result);
+                //displayHeader();
+                //displayEntry(result);
                 return;
             }
 
         }
-        cout << "School not found in database." << endl;
+        //cout << "School not found in database." << endl;
     }
 
 };
@@ -428,7 +430,7 @@ int main()
     }
     cout << "Finished USA Schools." << endl;
 
-}*/
+}
 
 void hashOldMain() {
 
@@ -490,4 +492,4 @@ void hashOldMain() {
                 break;
         }
     }
-}
+}*/

@@ -186,7 +186,7 @@ void listDisplayMenu()
     cout << "d) Exit" << endl;
     cout << setfill('~') << setw(50) << "~" << setfill(' ') << endl;
 }
-
+/*
 int main()
 {
     SchoolList schoolList;
@@ -363,3 +363,4 @@ void listOldMain() {
         }
     }
 }
+*/

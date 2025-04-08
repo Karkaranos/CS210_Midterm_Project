@@ -4,6 +4,7 @@
 #include <vector>
 #include <iomanip>
 #include <compare>
+#include "Timer.h"
 using namespace std;
 
 /// Defines the School Struct
@@ -30,6 +31,15 @@ struct School {
         county = schoolCounty;
         left = nullptr;
         right = nullptr;
+    }
+
+    void setData(string schoolName, string schoolAddress, string schoolCity, string schoolState, string schoolCounty)
+    {
+        name = schoolName;
+        address = schoolAddress;
+        city = schoolCity;
+        state = schoolState;
+        county = schoolCounty;
     }
 };
 
@@ -61,12 +71,14 @@ private:
         //  If the provided potential parent is null
         if (node == nullptr)
         {
-            node = newSchool;
-            return node;
+            return newSchool;
         }
 
+        if (newSchool -> name == node->name) {
+            return node;
+        }
         //  If the name of this school is less than the parent's name
-        if  (newSchool -> name < node->name)
+        if  (newSchool->name < node -> name)
         {
             //  Recursively call on the left subtree
             node -> left = insertHelper(node -> left, newSchool);
@@ -115,22 +127,26 @@ private:
         //  If the name of this node is greater than the name to find
         if (node->name > name)
         {
+
             //  Recursively search the left subtree
             node -> left = deleteByNameHelper(node->left, name);
         }
         //  If the name of this node is less than the name to find
         else if (node-> name < name)
         {
+
             //  Recursively search the right subtree
             node -> right = deleteByNameHelper(node->right, name);
         }
         //  If the names are equal
         else
         {
+
             //  Case 1: The left pointer is null
             //  Handles instances with 0 children or only a right child
             if (node->left == nullptr)
             {
+
                 School* temp = node->right;
                 delete node;
                 return temp;
@@ -142,11 +158,15 @@ private:
             {
                 School* temp = node->left;
                 delete node;
+
                 return temp;
             }
 
             //  Case 3: The node has two children
             School* temp = node->right;
+            School* thisRef = node;
+            //cout << "Hi5" << endl;
+
 
             //  Search for the next greatest value in the tree
             //  AKA the minimum of the right child
@@ -154,13 +174,13 @@ private:
             {
                 temp = temp->left;
             }
-            temp->right = node->right;
-            temp->left = node->left;
-            delete(node);
-            return temp;
+            //node->setData(*temp);
+            node->setData(temp->name, temp->address, temp->city, temp->state, temp->county);
+            temp->right = deleteByNameHelper(temp->right, temp->name);
+            return thisRef;
         }
         //  Helps avoid errors
-        return node;
+        return nullptr;
     }
 
     /// Helper function for finding and displaying School nodes by name
@@ -345,10 +365,11 @@ public:
     /// Public function to delete a school, given a name
     /// Calls private helper function
     /// Paramaters: School to delete as a string
-    void deleteByName(string schoolName)
+    School* deleteByName(string schoolName)
     {
         //  Call to recursive helper function
         root = deleteByNameHelper(root, schoolName);
+        return root;
     }
 
     /// Public function to find and display a school, given a name
@@ -356,8 +377,9 @@ public:
     /// Paramaters: School to find as a string
     void findByName(string schoolName) {
         //  Calls to private helpers to create table and find the requested school
-        displayHeader();
-        displayNode(findByNameHelper(root, schoolName));
+        //displayHeader();
+        findByNameHelper(root, schoolName);
+        //displayNode(findByNameHelper(root, schoolName));
     }
 
 };
@@ -409,9 +431,135 @@ void BSTDisplayMenu()
 /*
 int main()
 {
+    SchoolBST schoolBST;
+    Timer t;
+
+    string filename = "Illinois_Schools.csv";
+    //Import Illinois data first
+    vector<vector<string>> data = BSTCSVReader::readCSV(filename);
+    string results = "SchoolBSTData.csv";
+    ofstream outFile(results);
+    if (!outFile.is_open())
+    {
+        cerr << "Failed to open " << results << "for writing.\n";
+        return 1;
+    }
 
 
-}*/
+    outFile << "List" << endl;
+    outFile << "Index, Insert, Find, Delete" << endl;
+    float f1 = 0;
+    float f2 = 0;
+    float f3 = 0;
+    float f4 = 0;
+    float f5 = 0;
+    float f6 = 0;
+    int findMe;
+    int savedDataSize = data.size();
+    srand(time(NULL));
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    for (int i=1; i<data.size(); i++)
+    {
+
+        School* s = new School(data[i][0], data[i][1], data[i][2],
+            data[i][3], data[i][4]);
+
+
+
+        f1 = t.get_time();
+        schoolBST.insert(s);
+        f2 = t.get_time();
+
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f3 = t.get_time();
+        schoolBST.findByName(data[findMe][0]);
+        f4 = t.get_time();
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f5 = t.get_time();
+        School* saved = schoolBST.deleteByName(data[findMe][0]);
+        f6 = t.get_time();
+
+
+        schoolBST.insert(saved);
+
+
+
+        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
+    }
+
+    cout << "Finished Illinois Schools" << endl;
+    filename = "USA_Schools.csv";
+    data = BSTCSVReader::readCSV(filename);
+    School* s;
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    for (int i=1; i<data.size(); i++)
+    {
+        if (data[i].size() <5) {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], "Unknown");
+
+        }
+        else {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], data[i][4]);
+        }
+        f1 = t.get_time();
+        schoolBST.insert(s);
+        f2 = t.get_time();
+
+
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f3 = t.get_time();
+        schoolBST.findByName(data[findMe][0]);
+        f4 = t.get_time();
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f5 = t.get_time();
+        School* saved = schoolBST.deleteByName(data[findMe][0]);
+        f6 = t.get_time();
+
+        schoolBST.insert(saved);
+
+
+
+        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
+    }
+    cout << "Finished USA Schools." << endl;
+
+}
 
 void BSTOldMain() {
     //  Create the schoolBST
@@ -476,4 +624,4 @@ void BSTOldMain() {
             break;
         }
     }
-}
+}*/
