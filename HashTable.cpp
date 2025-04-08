@@ -45,26 +45,32 @@ class SchoolHashList {
 public:
     School* justDeleted;
     School* head;
-    School* tail;
 
     SchoolHashList() {
-        head = tail = nullptr;
+        head = nullptr;
     }
 
-    void insert(School* school) {
 
-        if (head == nullptr) {
-            head = school;
+    void insert(School school) {
+        if (head == nullptr || head->name == school.name) {
+            head = new School(school);
         }
         else {
-
-            tail->next = school;
+            School *temp = head;
+            while (temp->next != nullptr)
+            {
+                if (temp->next -> name == school.name) {
+                    return;
+                }
+                temp = temp->next;
+            }
+            temp->next = new School(school);
+            temp->next->next = nullptr;
         }
-        tail = school;
-        school->next = nullptr;
     }
 
     vector<School*> split() {
+        cout << "Entered split" << endl;
         vector<School*> schools;
         School* node = head;
         while (node!=nullptr) {
@@ -74,31 +80,48 @@ public:
         return schools;
     }
 
+    ///This item should look through items in the list
     char deleteSchoolFromList(string name)
     {
         School* node = head;
-        if (head -> name == name) {
-            if (head == tail) {
-                justDeleted = head;
-                return 'd';
-            }
-            else {
-                justDeleted = head;
-                head = head -> next;
-            }
+
+        // If the head is null, the list is null.
+        // Return 'd' to indicate empty list
+        if (head == nullptr) {
+            justDeleted = nullptr;
+            return 'd';
+        }
+
+        //If the head is the school to be deleted
+        //Save a reference to the head and set head to the next node
+        //Return 't' for found
+        if (head -> name == name)
+        {
+            justDeleted = head;
+            head = head->next;
             return 't';
         }
+
+        //If the next node is not null
         while (node->next!=nullptr)
         {
+            //If the next node is the school to be deleted
             if (node->next ->name == name) {
+
+                //Save a reference to the node and set this node's next to the next next node
+                //Return 't' for found
                 justDeleted = node->next;
                 node -> next = node -> next -> next;
                 return 't';
             }
-
+            node = node->next;
         }
+
+        //It's something with a hashkey of -84. it only happens with that key
+        cout << "FAILURE: COULD NOT FIND " << name << endl;
         justDeleted = nullptr;
         return 'f';
+
     }
 
     School* findSchoolInList(string name) {
@@ -192,16 +215,21 @@ public:
     /// Cals private hashkey function
     /// Paramaters: School to add as a School*
     void insert(School* school) {
+
+        //cout << "enter" << school->name << endl;
         int hashKey = polynomialHash(school->name);
         school->SetKey(hashKey);
         SchoolHashList second;
+
         if (schools.find(hashKey) == schools.end()) {
+            //cout << "case1";
             second = SchoolHashList();
         }
         else {
+            //cout << "case2";
             second = schools.find(hashKey)->second;
         }
-        second.insert(school);
+        second.insert(*school);
         schools[school->key] = second;
     }
 
@@ -223,20 +251,24 @@ public:
     /// Paramaters: School to delete as a string
     School* deleteByName(string name)
     {
+
         int hashKey = polynomialHash(name);
+        cout << name << " : " << hashKey << endl;
         unordered_map<int, SchoolHashList>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
             auto schoolList = it->second;
 
             char result = schoolList.deleteSchoolFromList(name);
             if (result =='t') {
-                //cout << name << " deleted from database." << endl;
+                cout << name << " deleted from database." << endl;
                 return schoolList.justDeleted;
             }
             else if (result == 'd') {
                 schools.erase(hashKey);
+                cout << endl;
                 return schoolList.justDeleted;
             }
+
 
         }
         //cout << "School not found in database." << endl;
@@ -255,7 +287,7 @@ public:
             auto schoolList = it->second;
 
             School* result = schoolList.findSchoolInList(name);
-            if (result == nullptr) {
+            /*if (result == nullptr) {
                 //cout << "School not found in database." << endl;
                 return;
             }
@@ -263,7 +295,7 @@ public:
                 //displayHeader();
                 //displayEntry(result);
                 return;
-            }
+            }*/
 
         }
         //cout << "School not found in database." << endl;
@@ -315,7 +347,7 @@ void hashDisplayMenu()
 /// Handles the main logic of the program
 /// Creates a list of schools from an external CSV file
 /// Reads in input from a user and calls corresponding functions
-/*
+
 int main()
 {
     SchoolHash schoolHash;
@@ -354,6 +386,67 @@ int main()
         schoolHash.insert(s);
         f2 = t.get_time();
 
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f3 = t.get_time();
+        schoolHash.findByName(data[findMe][0]);
+        f4 = t.get_time();
+
+
+        findMe = rand()%i + 1;
+        if (findMe == i) {
+            findMe = i-1;
+        }
+        if (findMe == 0) {
+            findMe = 1;
+        }
+
+        f5 = t.get_time();
+        School* saved = schoolHash.deleteByName(data[findMe][0]);
+        f6 = t.get_time();
+
+        if (saved == nullptr) {
+            cout << "Saved is null on iteration " << i << endl;
+        }
+
+        schoolHash.insert(saved);
+
+
+        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
+    }
+
+    cout << "Finished Illinois Schools" << endl;
+
+    schoolHash.display();
+/*
+    filename = "USA_Schools.csv";
+    data = hashCSVReader::readCSV(filename);
+    // Adding all items to the list's tail
+    // Index starts at 1 to remove the CSV file headers
+    School* s;
+    for (int i=1; i<data.size(); i++)
+    {
+        if (data[i].size() <5) {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], "Unknown");
+
+        }
+        else {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], data[i][4]);
+        }
+        f1 = t.get_time();
+        schoolHash.insert(s);
+        f2 = t.get_time();
+
+
         findMe = rand()%i + 1;
         if (findMe == i) {
             findMe = i-1;
@@ -381,57 +474,13 @@ int main()
         schoolHash.insert(saved);
 
 
-        outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
-    }
-
-    cout << "Finished Illinois Schools" << endl;
-    /*filename = "USA_Schools.csv";
-    data = ListCSVReader::readCSV(filename);
-    // Adding all items to the list's tail
-    // Index starts at 1 to remove the CSV file headers
-    for (int i=1; i<data.size(); i++)
-    {
-        School* s = new School(data[i][0], data[i][1], data[i][2],
-            data[i][3], data[i][4]);
-        f1 = t.get_time();
-        schoolList.insertLast(*s);
-        f2 = t.get_time();
-
-
-        findMe = rand()%i + 1;
-        if (findMe == i) {
-            findMe = i-1;
-        }
-        if (findMe == 0) {
-            findMe = 1;
-        }
-
-        f3 = t.get_time();
-        schoolList.findByName(data[findMe][0]);
-        f4 = t.get_time();
-
-        findMe = rand()%i + 1;
-        if (findMe == i) {
-            findMe = i-1;
-        }
-        if (findMe == 0) {
-            findMe = 1;
-        }
-
-        f5 = t.get_time();
-        School* saved = schoolList.deleteByName(data[findMe][0]);
-        f6 = t.get_time();
-
-        schoolList.insertLast(*saved);
-
-
 
         outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
     }
-    cout << "Finished USA Schools." << endl;
+    cout << "Finished USA Schools." << endl;*/
 
 }
-
+/*
 void hashOldMain() {
 
     //  Create the schoolBST
