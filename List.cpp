@@ -256,17 +256,26 @@ int main()
     }
 
     cout << "Finished Illinois Schools" << endl;
-    /*filename = "USA_Schools.csv";
+    filename = "USA_Schools.csv";
     data = ListCSVReader::readCSV(filename);
+    School* s;
     // Adding all items to the list's tail
     // Index starts at 1 to remove the CSV file headers
     for (int i=1; i<data.size(); i++)
     {
-        School* s = new School(data[i][0], data[i][1], data[i][2],
-            data[i][3], data[i][4]);
+        if (data[i].size() <5) {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], "Unknown");
+
+        }
+        else {
+            s = new School(data[i][0], data[i][1], data[i][2],
+                data[i][3], data[i][4]);
+        }
         f1 = t.get_time();
         schoolList.insertLast(*s);
         f2 = t.get_time();
+
 
 
         findMe = rand()%i + 1;
@@ -299,7 +308,7 @@ int main()
 
         outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
     }
-    cout << "Finished USA Schools." << endl;*/
+    cout << "Finished USA Schools." << endl;
 }
 
 void listOldMain() {
