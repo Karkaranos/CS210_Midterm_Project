@@ -25,6 +25,7 @@ struct School {
 
     /// Constructor for struct School
     /// Initializes data variables
+
     School(string schoolName, string schoolAddress, string schoolCity, string schoolState, string schoolCounty) {
         name = schoolName;
         address = schoolAddress;
@@ -43,7 +44,6 @@ struct School {
 
 class SchoolHashList {
 public:
-    School* justDeleted;
     School* head;
 
     SchoolHashList() {
@@ -51,20 +51,20 @@ public:
     }
 
 
-    void insert(School school) {
-        if (head == nullptr || head->name == school.name) {
-            head = new School(school);
+    void insert(School* school) {
+        if (head == nullptr || head->name == school->name) {
+            head = school;
         }
         else {
             School *temp = head;
             while (temp->next != nullptr)
             {
-                if (temp->next -> name == school.name) {
+                if (temp->next -> name == school->name) {
                     return;
                 }
                 temp = temp->next;
             }
-            temp->next = new School(school);
+            temp->next = school;
             temp->next->next = nullptr;
         }
     }
@@ -81,15 +81,15 @@ public:
     }
 
     ///This item should look through items in the list
-    char deleteSchoolFromList(string name)
+    School* deleteSchoolFromList(string name)
     {
-        School* node = head;
 
+        School* justDeleted;
         // If the head is null, the list is null.
         // Return 'd' to indicate empty list
         if (head == nullptr) {
             justDeleted = nullptr;
-            return 'd';
+            return justDeleted;
         }
 
         //If the head is the school to be deleted
@@ -99,9 +99,10 @@ public:
         {
             justDeleted = head;
             head = head->next;
-            return 't';
+            return justDeleted;
         }
 
+        School* node = head;
         //If the next node is not null
         while (node->next!=nullptr)
         {
@@ -112,7 +113,7 @@ public:
                 //Return 't' for found
                 justDeleted = node->next;
                 node -> next = node -> next -> next;
-                return 't';
+                return justDeleted;
             }
             node = node->next;
         }
@@ -120,7 +121,7 @@ public:
         //It's something with a hashkey of -84. it only happens with that key
         cout << "FAILURE: COULD NOT FIND " << name << endl;
         justDeleted = nullptr;
-        return 'f';
+        return justDeleted;
 
     }
 
@@ -229,7 +230,7 @@ public:
             //cout << "case2";
             second = schools.find(hashKey)->second;
         }
-        second.insert(*school);
+        second.insert(school);
         schools[school->key] = second;
     }
 
@@ -253,21 +254,26 @@ public:
     {
 
         int hashKey = polynomialHash(name);
-        cout << name << " : " << hashKey << endl;
+        //cout << name << " : " << hashKey << endl;
         unordered_map<int, SchoolHashList>::iterator it = schools.find(hashKey);
         if (it != schools.end()) {
             auto schoolList = it->second;
 
-            char result = schoolList.deleteSchoolFromList(name);
+            School* result = schoolList.deleteSchoolFromList(name);
+            if (result == nullptr) {
+                schools.erase(hashKey);
+            }
+            return result;
+            /*
             if (result =='t') {
-                cout << name << " deleted from database." << endl;
+                //cout << name << " deleted from database." << endl;
                 return schoolList.justDeleted;
             }
             else if (result == 'd') {
                 schools.erase(hashKey);
                 cout << endl;
                 return schoolList.justDeleted;
-            }
+            }*/
 
 
         }
@@ -415,8 +421,11 @@ int main()
         if (saved == nullptr) {
             cout << "Saved is null on iteration " << i << endl;
         }
+        else {
 
-        schoolHash.insert(saved);
+            schoolHash.insert(saved);
+        }
+
 
 
         outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
@@ -424,8 +433,7 @@ int main()
 
     cout << "Finished Illinois Schools" << endl;
 
-    schoolHash.display();
-/*
+
     filename = "USA_Schools.csv";
     data = hashCSVReader::readCSV(filename);
     // Adding all items to the list's tail
@@ -471,13 +479,19 @@ int main()
         School* saved = schoolHash.deleteByName(data[findMe][0]);
         f6 = t.get_time();
 
-        schoolHash.insert(saved);
+        if (saved == nullptr) {
+            cout << "Saved is null on iteration " << i << endl;
+        }
+        else {
+
+            schoolHash.insert(saved);
+        }
 
 
 
         outFile << i << "," << f2-f1 << "," << f4-f3 << "," << f6-f5 << endl;
     }
-    cout << "Finished USA Schools." << endl;*/
+    cout << "Finished USA Schools." << endl;
 
 }
 /*
